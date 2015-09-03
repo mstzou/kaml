@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Extension Options</title>
+<link href="style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<article>
+    <h2>Checking Period</h2>
+    <section>
+        <label>
+            Refresh Appsflyer page every
+            <select id="frequency">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>10</option>
+                <option>15</option>
+                <option>20</option>
+                <option>25</option>
+                <option>30</option>
+            </select>
+            minute(s).
+        </label>
+    </section>
+</article>
+
+<article>
+    <h2>Checking URL</h2>
+    <section>
+        <label>
+            <span class="option-text">Set Appsflyer URL</span>
+            <input id="appsflyer_url" type="text" size=70>
+        </label>
+    </section>
+</article>
+
+<article>
+    <h2 > </h2>
+    <section>
+        <label>
+            <span><button id="save">Save</button></span>
+        </label>
+        <label>
+            <div id="status"></div>
+        </label>
+    </section>
+</article>
+
+<script src="options.js"></script>
+</body>
+</html>
