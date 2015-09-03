@@ -106,18 +106,21 @@ function onWatchdog() {
   });
 }
 
+function run(){
+  chrome.storage.sync.set(setting, function() {
+    startRequest();
+  });
+  chrome.alarms.create('watchdog', {periodInMinutes:5});
+}
+
 chrome.storage.onChanged.addListener(function(changes, namespace) {
   for (key in changes) {
     setting[key] = changes[key].newValue;
   }
 });
 
-chrome.runtime.onInstalled.addListener(function(){
-  chrome.storage.sync.set(setting, function() {
-    startRequest();
-  });
-  chrome.alarms.create('watchdog', {periodInMinutes:5});
-});
+chrome.runtime.onInstalled.addListener(run);
+
+chrome.runtime.onStartup.addListener(run);
 
 chrome.alarms.onAlarm.addListener(onAlarm);
-
