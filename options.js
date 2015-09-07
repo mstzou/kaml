@@ -22,12 +22,7 @@ function save_options() {
 }
 
 function restore_options() {
-  chrome.storage.sync.get({
-    // isActivated: true,
-    frequency: '1',
-    appsflyer_url: 'https://hq.appsflyer.com'
-  }, function(items) {
-    // document.getElementById('isActivated').checked = items.isActivated;
+  chrome.storage.sync.get(null, function(items) {
     document.getElementById('frequency').value = items.frequency;
     document.getElementById('appsflyer_url').value = items.appsflyer_url;
   });
