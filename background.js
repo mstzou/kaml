@@ -67,7 +67,7 @@ function startRequest(params) {
     }, function(){
       if(inTab === false){
         console.info('deactive');
-        showStatus()
+        showStatus();
         return;
       }
       refresh();
@@ -116,6 +116,10 @@ function run(){
 chrome.storage.onChanged.addListener(function(changes, namespace) {
   for (key in changes) {
     setting[key] = changes[key].newValue;
+    if(key === 'frequency' || key === 'appsflyer_url'){
+      console.info('restart schedule: ' + key + ' = ' + setting[key]);
+      startRequest();
+    }
   }
 });
 
