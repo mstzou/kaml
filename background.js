@@ -107,9 +107,17 @@ function onWatchdog() {
 }
 
 function run(){
-  chrome.storage.sync.set(setting, function() {
-    startRequest();
+  chrome.storage.sync.get(null, function(items) {
+    if(Object.getOwnPropertyNames(items).length === 0){
+      // if not setting any value, use default
+      chrome.storage.sync.set(setting, function() {
+        startRequest();
+      });
+    }else{
+      startRequest();
+    }
   });
+
   chrome.alarms.create('watchdog', {periodInMinutes:5});
 }
 
