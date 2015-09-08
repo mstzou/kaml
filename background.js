@@ -126,7 +126,7 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
     setting[key] = changes[key].newValue;
     if(key === 'frequency' || key === 'appsflyer_url'){
       console.info('restart schedule: ' + key + ' = ' + setting[key]);
-      startRequest();
+      run();
     }
   }
 });
