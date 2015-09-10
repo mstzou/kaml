@@ -71,25 +71,32 @@ function startRequest(params) {
         return;
       }
       refresh();
+      showStatus();
     });
   });
-  scheduleRequest();
 }
 
 function scheduleRequest() {
-  var delay = setting.frequency || 1; // 1 minute
+  var delay = setting.frequency;
   console.info('schedule request: ' + delay + ' min.') ;
+  console.info(setting);
   delay = parseInt(delay);
-  chrome.alarms.create('refresh', {periodInMinutes: delay});
+  chrome.alarms.clear('refresh');
+  chrome.alarms.create('refresh', {delayInMinutes: delay});
 }
 
 function onAlarm(alarm) {
   console.info('Got alarm', alarm);
+  chrome.alarms.getAll(function(alarms){
+    console.log(alarms);
+  });
   if (alarm && alarm.name == 'watchdog') {
     onWatchdog();
   } else {
     chrome.storage.sync.get(null, function(items) {
-      startRequest();
+      settings = items;
+      console.log(items);
+      run();
     });
   }
 }
@@ -101,7 +108,7 @@ function onWatchdog() {
     } else {
       console.info('Refresh alarm doesn\'t exist!? ' +
                   'Refreshing now and rescheduling.');
-      startRequest();
+      run();
     }
   });
 }
@@ -114,20 +121,26 @@ function run(){
         startRequest();
       });
     }else{
+      setting = items;
       startRequest();
     }
   });
-
+  scheduleRequest();
   chrome.alarms.create('watchdog', {periodInMinutes:5});
 }
 
 chrome.storage.onChanged.addListener(function(changes, namespace) {
+  var needRestart = false;
   for (key in changes) {
     setting[key] = changes[key].newValue;
     if(key === 'frequency' || key === 'appsflyer_url'){
       console.info('restart schedule: ' + key + ' = ' + setting[key]);
-      run();
+      needRestart = true;
+      
     }
+  }
+  if(needRestart){
+    run();
   }
 });
 

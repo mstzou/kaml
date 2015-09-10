@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Keep My Appsflyer Login",
     "description": "This extension keep user sign in by periodically refresh appsflyer page.",
-    "version": "1.8",
+    "version": "1.14",
     "options_page": "options.html",
     "background":
     {
